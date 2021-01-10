@@ -1,0 +1,41 @@
+#!/bin/bash
+
+while getopts "y:s:f:" flags; do
+	case $flags in
+		y)
+			URL=$OPTARG
+			;;
+		s)
+			DISPLAY_SIZE=$OPTARG
+			;;
+		f)
+			FILE=$OPTARG
+			;;
+	esac
+done
+
+case $DISPLAY_SIZE in
+	full)
+		DISPLAY_SIZE="0 0 0 0"
+		;;
+	big)
+		DISPLAY_SIZE="0 0 1280 720"
+		;;
+	medium)
+		DISPLAY_SIZE="0 0 854 480"
+		;;
+	small)
+		DISPLAY_SIZE="0 0 640 360"
+		;;
+	audio)
+		DISPLAY_SIZE="0 0 1 1"
+		;;
+
+esac
+
+if [ -z $URL  ];
+then
+	omxplayer -o hdmi --vol -2700 --win "${DISPLAY_SIZE}" "${FILE}"
+else
+	omxplayer -o hdmi --vol -2700 --win "${DISPLAY_SIZE}" "$(youtube-dl -g -f best ${URL})"
+fi

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+message_error () {
+	echo "Flags help:"
+	echo "Search: -s [Paraphrasse for search]"
+	echo "URL: -u [Direct URL without https://]"
+	exit 0
+}
+
+while getopts 's:u:' flags; do
+	case $flags in
+		s)
+			SEARCH=$OPTARG
+			;;
+		u)
+			URL=$OPTARG
+			;;
+		*)
+			message_error	
+			;;
+				
+	esac
+done
+
+if [ $OPTIND -eq 1 ];
+then
+	message_error	
+fi 
+
+if [ ! ${#SEARCH} -eq 0 ];
+then
+	vivaldi --app="https://www.google.com/search?q=${SEARCH}" &
+else
+	vivaldi --app="https://${URL}" &
+fi

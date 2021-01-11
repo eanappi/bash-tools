@@ -1,5 +1,11 @@
 #!/bin/bash
 
+message_error () {
+	echo "Help:"
+	echo "The flags to use are: -y [Youtube URL] -s [full, big, medium, small, audio] -f [File name]"
+	exit 0
+}
+
 while getopts "y:s:f:" flags; do
 	case $flags in
 		y)
@@ -11,9 +17,16 @@ while getopts "y:s:f:" flags; do
 		f)
 			FILE=$OPTARG
 			;;
+		*)
+			message_error
+			;;
 	esac
 done
 
+if [ $OPTIND -eq 1 ];
+then
+	message_error
+fi
 
 case $DISPLAY_SIZE in
 	full)
@@ -31,18 +44,12 @@ case $DISPLAY_SIZE in
 	audio)
 		DISPLAY_SIZE="0 0 1 1"
 		;;
-	*)
-		echo "Help:"
-		echo "The flags to use are: -y [Youtube URL] -s [full, big, medium, small, audio] -f [File name]"
-		exit 0
-		;;
-
 esac
 
 if [ -z ${URL} ];
 then
-	omxplayer -o hdmi --vol -2700 --win "${DISPLAY_SIZE}" "${FILE}"
+	omxplayer -o hdmi --vol -2700 -I --win "${DISPLAY_SIZE}" "${FILE}"
 else
-	omxplayer -o hdmi --vol -2700 --win "${DISPLAY_SIZE}" "$(youtube-dl -g -f best ${URL})"
+	omxplayer -o hdmi --vol -2700 -I --win "${DISPLAY_SIZE}" "$(youtube-dl -g -f 'best[height>=480]/best[height<=1080]/best[ext=mp4]' ${URL})"
 fi
 

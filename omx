@@ -14,6 +14,7 @@ while getopts "y:s:f:" flags; do
 	esac
 done
 
+
 case $DISPLAY_SIZE in
 	full)
 		DISPLAY_SIZE="0 0 0 0"
@@ -30,12 +31,18 @@ case $DISPLAY_SIZE in
 	audio)
 		DISPLAY_SIZE="0 0 1 1"
 		;;
+	*)
+		echo "Help:"
+		echo "The flags to use are: -y [Youtube URL] -s [full, big, medium, small, audio] -f [File name]"
+		exit 0
+		;;
 
 esac
 
-if [ -z $URL  ];
+if [ -z ${URL} ];
 then
 	omxplayer -o hdmi --vol -2700 --win "${DISPLAY_SIZE}" "${FILE}"
 else
 	omxplayer -o hdmi --vol -2700 --win "${DISPLAY_SIZE}" "$(youtube-dl -g -f best ${URL})"
 fi
+

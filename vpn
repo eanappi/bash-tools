@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo openfortivpn ssl.buenosaires.gob.ar -u 20266870443 -p c071078Bu. --trusted-cert c79f81cd715d4bac41b1497e1171ee9a57d0fe307b82b09e5a8c2796fa3b7ffb

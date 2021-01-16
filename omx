@@ -32,7 +32,7 @@ case $DISPLAY_SIZE in
 	full)
 		DISPLAY_SIZE="0 0 0 0"
 		;;
-	big)
+	* | big)
 		DISPLAY_SIZE="0 0 1280 720"
 		;;
 	medium)
@@ -44,6 +44,10 @@ case $DISPLAY_SIZE in
 	audio)
 		DISPLAY_SIZE="0 0 1 1"
 		;;
+#	*)
+#		DISPLAY_SIZE="0 0 640 360"
+#		;;
+		
 esac
 
 if [ -z ${URL} ];
